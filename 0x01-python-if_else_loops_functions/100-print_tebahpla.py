@@ -1,3 +1,7 @@
 #!/usr/bin/python3
-for j in range(ord("z"), ord("a") - 1, -1):
-    print("{:c}".format(j if j % 2 == 1 else j - 32), end='')
+for j in range(ord('z'), ord('a') - 1, -1):
+    if j % 2 == 0:
+        dispa = 0
+    else:
+        dispa = 32
+    print('{}'.format(chr(j - dispa)), end='')
