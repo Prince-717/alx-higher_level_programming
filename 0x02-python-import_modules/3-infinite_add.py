@@ -1,13 +1,15 @@
 #!/usr/bin/python3
-import sys
+if __name__ == "__main__":
+    import sys
 
-len_args = len(sys.argv)
-i = 1
-sum = 0
+    len_args = len(sys.argv)
+    i = 1
 
-while i < len_args:
-    sum += int(sys.argv[i])
+    sum = 0
 
-    i += 1
+    while i < len_args:
+        sum += int(sys.argv[i])
 
-print(f"{sum}")
+        i += 1
+
+    print(f"{sum}")
