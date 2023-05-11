@@ -20,4 +20,3 @@ if __name__ == "__main__":
             while i < len_args:
                 print(f"{i}: {sys.argv[i]}")
                 i += 1
-            
