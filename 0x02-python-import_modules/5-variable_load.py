@@ -3,6 +3,4 @@
 if __name__ == "__main__":
     import variable_load_5 as var
 
-    print(f"{:d}".format(var.a))
-
-    
+    print("{:d}".format(var.a))
