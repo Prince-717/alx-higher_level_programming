@@ -1,15 +1,9 @@
 #!/usr/bin/python3
-
 def uniq_add(my_list=[]):
-    if my_list:
-        un = set([x for x in my_list if my_list.count(x) > 1])
-        sum = 0
-        for n in un:
-            sum += n
-        for item in my_list:
-            if item in un:
-                continue
-            else:
-                sum += item
-
-        return sum
+    u_sum = 0
+    i_set = set()
+    for n in my_list:
+        if n not in i_set:
+            i_set.add(n)
+            u_sum += n
+    return u_sum
