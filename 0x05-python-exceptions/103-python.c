@@ -10,13 +10,13 @@ void print_python_float(PyObject *p);
  */
 void print_python_list(PyObject *p)
 {
-	Py_ssize_t size, alloc, i;
-	const char *type;
+	Py_ssize_t dimension, mem_alloc, index;
+	const char *kind;
 	PyListObject *list = (PyListObject *)p;
 	PyVarObject *var = (PyVarObject *)p;
 
-	size = var->ob_size;
-	alloc = list->allocated;
+	dimension = var->object_size;
+	mem_alloc = list->allocated;
 
 	fflush(stdout);
 
@@ -27,17 +27,17 @@ void print_python_list(PyObject *p)
 		return;
 	}
 
-	printf("[*] Size of the Python List = %ld\n", size);
-	printf("[*] Allocated = %ld\n", alloc);
+	printf("[*] Size of the Python List = %ld\n", dimension);
+	printf("[*] Allocated = %ld\n", mem_alloc);
 
-	for (i = 0; i < size; i++)
+	for (index = 0; index < dimension; index++)
 	{
-		type = list->ob_item[i]->ob_type->tp_name;
-		printf("Element %ld: %s\n", i, type);
-		if (strcmp(type, "bytes") == 0)
-			print_python_bytes(list->ob_item[i]);
-		else if (strcmp(type, "float") == 0)
-			print_python_float(list->ob_item[i]);
+		kind = list->ob_item[index]->ob_type->tp_name;
+		printf("Element %ld: %s\n", index, kind);
+		if (strcmp(kind, "bytes") == 0)
+			print_python_bytes(list->ob_item[index]);
+		else if (strcmp(kind, "float") == 0)
+			print_python_float(list->ob_item[index]);
 	}
 }
 
@@ -47,7 +47,7 @@ void print_python_list(PyObject *p)
  */
 void print_python_bytes(PyObject *p)
 {
-	Py_ssize_t size, i;
+	Py_ssize_t dimension, index;
 	PyBytesObject *bytes = (PyBytesObject *)p;
 
 	fflush(stdout);
@@ -59,19 +59,19 @@ void print_python_bytes(PyObject *p)
 		return;
 	}
 
-	printf("  size: %ld\n", ((PyVarObject *)p)->ob_size);
+	printf("  dimension: %ld\n", ((PyVarObject *)p)->object_size);
 	printf("  trying string: %s\n", bytes->ob_sval);
 
-	if (((PyVarObject *)p)->ob_size >= 10)
-		size = 10;
+	if (((PyVarObject *)p)->object_size >= 10)
+		dimension = 10;
 	else
-		size = ((PyVarObject *)p)->ob_size + 1;
+		dimension = ((PyVarObject *)p)->object_size + 1;
 
-	printf("  first %ld bytes: ", size);
-	for (i = 0; i < size; i++)
+	printf("  first %ld bytes: ", dimension);
+	for (index = 0; index < dimension; index++)
 	{
-		printf("%02hhx", bytes->ob_sval[i]);
-		if (i == (size - 1))
+		printf("%02hhx", bytes->ob_sval[index]);
+		if (index == (dimension - 1))
 			printf("\n");
 		else
 			printf(" ");
@@ -84,7 +84,7 @@ void print_python_bytes(PyObject *p)
  */
 void print_python_float(PyObject *p)
 {
-	char *buffer = NULL;
+	char *mem_buffer = NULL;
 
 	PyFloatObject *float_obj = (PyFloatObject *)p;
 
@@ -97,8 +97,8 @@ void print_python_float(PyObject *p)
 		return;
 	}
 
-	buffer = PyOS_double_to_string(float_obj->ob_fval, 'r', 0,
+	mem_buffer = PyOS_double_to_string(float_obj->ob_fval, 'r', 0,
 			Py_DTSF_ADD_DOT_0, NULL);
-	printf("  value: %s\n", buffer);
-	PyMem_Free(buffer);
+	printf("  value: %s\n", mem_buffer);
+	PyMem_Free(mem_buffer);
 }
