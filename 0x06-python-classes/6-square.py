@@ -55,5 +55,5 @@ class Square:
         [print("") for index in range(0, self.__position[1])]
         for index in range(0, self.__size):
             [print(" ", end="") for g in range(0, self.__position[0])]
-            [print("#", end="") for l in range(0, self.__size)]
+            [print("#", end="") for k in range(0, self.__size)]
             print("")
