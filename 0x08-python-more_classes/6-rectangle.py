@@ -83,4 +83,3 @@ class Rectangle:
         """Prints a message before the instance is destroyed."""
         print("Bye rectangle...")
         Rectangle.number_of_instances -= 1
-        
