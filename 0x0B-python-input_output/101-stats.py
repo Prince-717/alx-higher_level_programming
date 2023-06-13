@@ -1,50 +1,50 @@
 #!/usr/bin/python3
-"""Read from standard input and calculate metrics
+"""Reads from standard input and computes metrics
 """
 
 
-def print_stats(d_size, state_code):
+def print_stats(size, status_codes):
     """Print accumulated metrics
     """
-    print("File d_size: {}".format(d_size))
-    for opener in sorted(state_code):
-        print("{}: {}".format(opener, state_code[opener]))
+    print("File size: {}".format(size))
+    for key in sorted(status_codes):
+        print("{}: {}".format(key, status_codes[key]))
 
 
 if __name__ == "__main__":
     import sys
 
-    d_size = 0
-    state_code = {}
-    authentic_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
-    loop_count = 0
+    size = 0
+    status_codes = {}
+    valid_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
+    count = 0
 
     try:
-        for file_line in sys.stdin:
-            if loop_count == 10:
-                print_stats(d_size, state_code)
-                loop_count = 1
+        for line in sys.stdin:
+            if count == 10:
+                print_stats(size, status_codes)
+                count = 1
             else:
-                loop_count += 1
+                count += 1
 
-            file_line = file_line.split()
+            line = line.split()
 
             try:
-                d_size += int(file_line[-1])
+                size += int(line[-1])
             except (IndexError, ValueError):
                 pass
 
             try:
-                if file_line[-2] in authentic_codes:
-                    if state_code.get(file_line[-2], -1) == -1:
-                        state_code[file_line[-2]] = 1
+                if line[-2] in valid_codes:
+                    if status_codes.get(line[-2], -1) == -1:
+                        status_codes[line[-2]] = 1
                     else:
-                        state_code[file_line[-2]] += 1
+                        status_codes[line[-2]] += 1
             except IndexError:
                 pass
 
-        print_stats(d_size, state_code)
+        print_stats(size, status_codes)
 
     except KeyboardInterrupt:
-        print_stats(d_size, state_code)
+        print_stats(size, status_codes)
         raise
