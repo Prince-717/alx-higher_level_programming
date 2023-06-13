@@ -13,6 +13,6 @@ def number_of_lines(filename=""):
     """
     number_of_lines = 0
     with open(filename, 'r', encoding="utf-8") as f:
-        for file_line in f:
+        for line in f:
             number_of_lines += 1
     return number_of_lines
